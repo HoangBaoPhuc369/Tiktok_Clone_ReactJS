@@ -3,14 +3,12 @@ import classNames from 'classnames/bind';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
     faCircleXmark,
-    faCloudUpload,
     faCoins,
     faEarthAmerica,
     faEllipsisVertical,
     faGear,
     faKeyboard,
     faMagnifyingGlass,
-    faMessage,
     faSignOut,
     faSpinner,
     faUser,
@@ -26,6 +24,8 @@ import AccountItem from '~/components/AccountItem';
 import Menu from '~/components/Popper/Menu';
 import { faCircleQuestion } from '@fortawesome/free-regular-svg-icons';
 import 'tippy.js/dist/tippy.css';
+import { UploadIcon } from '~/components/Icons';
+import Image from '~/components/Image';
 
 const cx = classNames.bind(styles);
 
@@ -147,7 +147,7 @@ function Header() {
 
                                 delay={[0, 200]} content="Upload Video" placement='bottom'>
                                 <button className={cx('actions-btn')}>
-                                    <FontAwesomeIcon icon={faCloudUpload} />
+                                    <UploadIcon />
                                 </button>
                             </Tippy>
                             {/* <button className={cx('action')}>
@@ -165,7 +165,11 @@ function Header() {
                     }
                     <Menu items={currentUser ? userMenu : MENU_ITEMS} onChange={handleMenuChange}>
                         {currentUser ? (
-                            <img className={cx('user-avatar')} alt='Hoang Bao Phuc' src='https://lh3.googleusercontent.com/a-/AFdZucpSFOnqxyLpMtgnqT6cY16XhoNOfeYkDZlThD26GA=s28-c-k-no' />
+                            <Image
+                                className={cx('user-avatar')}
+                                alt='Hoang Bao Phuc'
+                                src='https://lh3.googvsdfwleusercontent.com/a-/AFdZucpSFOnqxyLpMtgnqT6cY16XhoNOfeYkDZlThD26GA=s28-c-k-no'
+                            />
                         ) : (
                             <button className={cx('more-btn')}>
                                 <FontAwesomeIcon icon={faEllipsisVertical} />
