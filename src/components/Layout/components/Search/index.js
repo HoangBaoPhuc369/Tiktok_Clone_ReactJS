@@ -3,6 +3,8 @@ import { faCircleXmark, faSpinner } from '@fortawesome/free-solid-svg-icons';
 import HeadlessTippy from '@tippyjs/react/headless';
 import classNames from 'classnames/bind';
 import { Wrapper as PopperWrapper } from '~/components/Popper';
+
+import * as searchService from '~/apiServices/searchService';
 import AccountItem from '~/components/AccountItem';
 import { SearchIcon } from '~/components/Icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -12,7 +14,7 @@ import {useDebounce} from '~/hooks';
 const cx = classNames.bind(styles);
 
 function Search() {
-    const [searchValue, setSearcValue] = useState('');
+    const [searchValue, setSearchValue] = useState('');
     const [searchResults, setSearchResults] = useState([]);
     const [showResults, setShowResults] = useState(true);
     const [loading, setLoading] = useState(false);
@@ -28,21 +30,21 @@ function Search() {
             return;
         }
 
-        setLoading(true);
+        const fetchApi = async () => {
+            setLoading(true);
 
-        fetch(`https://tiktok.fullstack.edu.vn/api/users/search?q=${encodeURIComponent(debounced)}&type=less`)
-            .then(res => res.json())
-            .then(res => {
-                setSearchResults(res.data);
-                setLoading(false);
-            })
-            .catch(() => {
-                setLoading(false);
-            })
+            const results = await searchService.search(debounced);
+            setSearchResults(results);
+
+            setLoading(false);
+        }
+       
+        fetchApi();
+       
     }, [debounced]);
 
     const handleClear = () => {
-        setSearcValue('');
+        setSearchValue('');
         setSearchResults([]);
         inputRef.current.focus()
     }
@@ -74,7 +76,7 @@ function Search() {
                     value={searchValue}
                     placeholder="Search accounts and videos"
                     spellCheck={false}
-                    onChange={(e) => setSearcValue(e.target.value)}
+                    onChange={(e) => setSearchValue(e.target.value)}
                     onFocus={() => setShowResults(true)}
                 />
                 {!!searchValue && !loading && (
